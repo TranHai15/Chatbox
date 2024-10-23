@@ -3,8 +3,7 @@ import { DataMessageContext } from "./FrameChat"; // Import context từ FrameCh
 
 export default function InputMessage() {
   const [message, setMessage] = useState(""); // Khởi tạo message trống
-  const { setSubmittedMessage, active, setActive } =
-    useContext(DataMessageContext); // Lấy hàm setActive từ context
+  const { setSubmittedMessage, active } = useContext(DataMessageContext); // Lấy hàm setActive từ context
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -36,8 +35,8 @@ export default function InputMessage() {
   };
 
   return (
-    <div className="bg-[#3C3C3C] h-auto max-h-[10rem] flex flex-col-reverse justify-start">
-      <div className="w-full mx-auto">
+    <div className="w-full h-auto max-h-[10rem] flex flex-col-reverse justify-start">
+      <div className="w-full ">
         <div className="container flex flex-1 relative items-end bg-white rounded-3xl">
           <div className="w-[95%] bg-white rounded-3xl">
             <textarea

@@ -10,7 +10,7 @@ export default function FrameChat() {
     <DataMessageContext.Provider
       value={{ submittedMessage, setSubmittedMessage, active, setActive }}
     >
-      <div className="bg-[#3C3C3C] h-[40rem] ">
+      <div className="bg-[#3C3C3C] h-screen  ">
         <div className="w-8/12 mx-auto ">
           <div>
             <Contnent />
