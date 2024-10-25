@@ -3,7 +3,7 @@ const ModleGetApi = {
   SendApi: async (data) => {
     try {
       // Sử dụng await để chờ fetch trả về
-      const res = await fetch("http://localhost:3000/newQuestion", {
+      const res = await fetch("http://127.0.0.1:5000/api/data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -15,7 +15,7 @@ const ModleGetApi = {
 
       if (res.ok) {
         // Gửi thành công thì lấy câu trả lời từ AI
-        const dataTraVe = await ModleGetApi.GetQuestion();
+        const dataTraVe = await res.json();
 
         // Kiểm tra xem dữ liệu trả về có không
         if (dataTraVe) {
@@ -36,24 +36,24 @@ const ModleGetApi = {
   },
 
   // Lấy dữ liệu phản hồi từ AI
-  GetQuestion: async () => {
-    try {
-      // Chờ fetch phản hồi từ API
-      const res = await fetch("http://localhost:3000/testAl");
+  // GetQuestion: async () => {
+  //   try {
+  //     // Chờ fetch phản hồi từ API
+  //     const res = await fetch("http://localhost:3000/testAl");
 
-      if (!res.ok) {
-        console.error("Không lấy được dữ liệu phản hồi từ AI.");
-        return null;
-      }
+  //     if (!res.ok) {
+  //       console.error("Không lấy được dữ liệu phản hồi từ AI.");
+  //       return null;
+  //     }
 
-      // Chuyển phản hồi thành JSON
-      const data = await res.json();
-      return data;
-    } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu phản hồi từ AI: ", error);
-      return null;
-    }
-  },
+  //     // Chuyển phản hồi thành JSON
+  //     const data = await res.json();
+  //     return data;
+  //   } catch (error) {
+  //     console.error("Lỗi khi lấy dữ liệu phản hồi từ AI: ", error);
+  //     return null;
+  //   }
+  // },
 };
 
 module.exports = ModleGetApi;

@@ -39,7 +39,7 @@ export default function Content() {
             SetMessages((prevMessages) => [...prevMessages, ...data]);
             scrollToBottom();
             setActive("true");
-            // console.log(...data);
+            console.log(...data);
           });
       }, 3000);
     }
