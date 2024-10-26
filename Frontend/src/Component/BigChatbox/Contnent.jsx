@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext, useRef } from "react";
+import { io } from "socket.io-client";
 import { DataMessageContext } from "./FrameChat"; // Import context
+
+const socket = io("http://localhost:5000");
 
 export default function Content() {
   const [Message, SetMessages] = useState([]);
   const { submittedMessage, active, setActive } =
-    useContext(DataMessageContext); // Lấy trạng thái loading từ context
-
-  // Tạo reference để cuộn xuống cuối khi có tin nhắn mới
+    useContext(DataMessageContext);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -23,26 +24,21 @@ export default function Content() {
       ]);
       setActive("false");
 
-      setTimeout(() => {
-        const dataText = {
-          type: "user",
-          text: submittedMessage,
-        };
+      // Gửi tin nhắn lên backend qua socket.io
+      socket.emit("send_message", submittedMessage);
 
-        fetch("http://localhost:5000/new", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataText),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            SetMessages((prevMessages) => [...prevMessages, ...data]);
-            scrollToBottom();
-            setActive("true");
-            console.log(...data);
-          });
-      }, 3000);
+      // Nghe phản hồi từ backend
+      socket.on("receive_message", (data) => {
+        console.log(...data);
+        SetMessages((prevMessages) => [...prevMessages, ...data]);
+        scrollToBottom();
+        setActive("true");
+      });
     }
+
+    return () => {
+      socket.off("receive_message");
+    };
   }, [submittedMessage]);
 
   useEffect(() => {
@@ -64,10 +60,8 @@ export default function Content() {
                 </span>
               </div>
               <div className="flex items-center">
-                <p
-                  className={`flex-auto w-full max-w-3xl h-auto text-white "text-white ml-2`}
-                >
-                  Xin chao toi co the giup gi duoc cho ban
+                <p className="flex-auto w-full max-w-3xl h-auto text-white ml-2">
+                  Xin chào, tôi có thể giúp gì được cho bạn?
                 </p>
               </div>
             </div>
@@ -79,7 +73,7 @@ export default function Content() {
                   }`}
                 >
                   {text.type === "Al" && (
-                    <div className="w-8 h-auto  top-0 relative">
+                    <div className="w-8 h-auto top-0 relative">
                       <span className="logo flex-none w-8 absolute top-0 rounded-full">
                         <img
                           className="w-full rounded-full object-contain"

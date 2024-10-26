@@ -20,8 +20,10 @@
   "homepage": "https://github.com/TranHai15/Chatbox#readme",
   "description": "",
   "dependencies": {
+    "axios": "^1.7.7",
     "cors": "^2.8.5",
     "express": "^4.21.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "socket.io": "^4.8.1"
   }
 }
